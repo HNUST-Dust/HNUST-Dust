@@ -1,0 +1,32 @@
+name: DUST Training Autograde
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ['training/submissions/**']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: training-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-submission:
+    name: Validate course submission
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout pull request
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate structure and manifest
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node training/scripts/validate-submission.mjs

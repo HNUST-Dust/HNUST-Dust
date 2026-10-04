@@ -19,3 +19,5 @@ python3 -m http.server 8000
 ## 课程中心
 
 `course.html` 提供 24 个学习单元，覆盖共同基础、嵌入式控制、视觉算法、机械硬件四条路线。课程数据集中维护在 `course-data.js`，学习进度保存在浏览器 `localStorage` 中。
+
+作业使用 Fork + Pull Request 提交，规范与模板位于 [`training/`](training/)。来自 Fork 的 PR 会触发只读权限的 `DUST Training Autograde` 工作流，自动检查提交目录、课程清单和敏感文件。
